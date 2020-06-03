@@ -39,8 +39,8 @@ def handle(event, context):
         return False
 
     try:
-        payload = {'api_key': os.environ['API_KEY'], 'url': path}
-        resp = requests.get(os.environ['SCRAPER_API'], params=payload)
+        payload = {'api_key': os.environ['SCRAPER_API_KEY'], 'url': path}
+        resp = requests.get(os.environ['SCRAPER_API_ENDPOINT'], params=payload)
         result = resp.text
     except:
         result = '404'
