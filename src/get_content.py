@@ -34,7 +34,6 @@ def save_content(id, content):
 def handle(event, context):
 
     id, path = get_data_from_event(event)
-    print (id, path)
 
     if path == '':
         return False
@@ -52,4 +51,10 @@ def handle(event, context):
 
 
 if __name__ == "__main__":
-    handle(None, None)
+    handle({
+        "Records": [
+            {
+                "body": "1,https://www.hklaw.com/en/professionals/d/driscoll-allison-k"
+            }
+        ]
+    }, None)

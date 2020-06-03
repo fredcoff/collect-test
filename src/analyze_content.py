@@ -56,12 +56,13 @@ def get_keywords_from_s3(bucket, key):
         return []
 
 
-def process_content(content, keywords, url):
-    result = ResultModel(id=str(uuid.uuid4()), url=url, content=content, 
+def process_content(content, keywords, url, key):
+    result = ResultModel(id=str(uuid.uuid4()), url=url, content=key, 
         lastUpdate=datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
     
     if content == '404':
         result.status = 404
+        result.tags = ''
     else:
         tags = []
         for keyword in keywords:
@@ -69,7 +70,7 @@ def process_content(content, keywords, url):
             res = re.search(f'\\b{pat}\\b', content, flags=re.IGNORECASE)
             if res:
                 tags.append(res.group())
-        result.tags = tags
+        result.tags = ','.join(tags)
         result.status = 200
     
     result.save()
@@ -86,7 +87,6 @@ def handle(event, context):
 
     bucket = event['Records'][0]['s3']['bucket']['name']
     key = event['Records'][0]['s3']['object']['key']
-    print (bucket, key)
 
     content = get_content_from_s3(bucket, key)
 
@@ -99,11 +99,24 @@ def handle(event, context):
     
     url_id = get_id_from_key(key)
     if url_id in url_dic:
-        process_content(content, keywords, url_dic[url_id])
+        process_content(content, keywords, url_dic[url_id], key)
         return True
     
     return False
 
 
 if __name__ == "__main__":
-    handle(None, None)
+    handle({
+        "Records": [
+            {
+                "s3": {
+                    "bucket": {
+                        "name": os.environ['S3_BUCKET']
+                    },
+                    "object": {
+                        "key": "2020/6/1"
+                    }
+                }
+            }
+        ]
+    }, None)

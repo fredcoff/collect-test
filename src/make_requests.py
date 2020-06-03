@@ -30,10 +30,8 @@ def create_task(id, path):
 def handle(event, context):
 
     urls = get_urls_from_s3(os.environ['S3_BUCKET'], os.environ['S3_KEY_URLS'])
-    print (urls)
 
     for url in urls:
-        print (url)
         create_task(url['id'], url['path'])
 
     return {
