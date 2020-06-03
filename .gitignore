@@ -1,0 +1,31 @@
+# Distribution / packaging
+
+node_modules
+.vscode/
+.DS_Store
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+# dedupe_dataframe_learned_settings
+# dedupe_dataframe_training.json
+eggs/
+.eggs/
+venv/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Serverless directories
+.serverless
+.dynamodb
+offline
+
+.requirements.zip

@@ -1,0 +1,18 @@
+{
+  "name": "email-duplicates",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "serverless-python-requirements": "5.0.1"
+  },
+  "devDependencies": {
+    "serverless-dotenv-plugin": "2.3.2",
+    "serverless-iam-roles-per-function": "2.0.2"
+  }
+}
