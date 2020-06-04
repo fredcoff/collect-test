@@ -22,7 +22,7 @@ def get_urls_from_s3(bucket, key):
 def create_task(id, path):
     sqs = boto3.resource('sqs')
 
-    queue = sqs.get_queue_by_name(QueueName=os.environ['QUEUE_NAME'])
+    queue = sqs.get_queue_by_name(QueueName=os.environ['SQS_QUEUE_NAME'])
 
     queue.send_message(MessageBody=f'{id},{path}')
 

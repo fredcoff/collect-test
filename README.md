@@ -47,12 +47,12 @@ Created a [scraperapi](https://www.scraperapi.com/) account.
 
 | Key | Description | e.g. |
 | :------------- | :------------- | :--- |
-|DYNAMODB_NAME | DynamoDB Table Name | `collect-test` |
-|DYNAMODB_ARN | DynamoDB Table ARN | `arn:aws:dynamodb:us-east-2:953508463518:table/collect-test` |
+|DYNAMODB_TABLE_NAME | DynamoDB Table Name | `collect-test` |
+|DYNAMODB_TABLE_ARN | DynamoDB Table ARN | `arn:aws:dynamodb:us-east-2:953508463518:table/collect-test` |
 |S3_BUCKET | S3 Bucket Name | `collect-test` |
 |S3_KEY_URLS | S3 Key for urls | `urls.csv` |
 |S3_KEY_KEYWORDS | S3 Key for keywords | `keywords.csv` |
-|QUEUE_NAME | SQS Queue Name  | `test-queue` |
-|QUEUE_ARN | SQS Queue ARN | `arn:aws:sqs:us-east-2:953508463518:test-queue` |
+|SQS_QUEUE_NAME | SQS Queue Name  | `test-queue` |
+|SQS_QUEUE_ARN | SQS Queue ARN | `arn:aws:sqs:us-east-2:953508463518:test-queue` |
 |SCRAPER_API_KEY | Scraper API Key | `294499dc0fb9dfe9a6ca5ed4db81fea2` |
 |SCRAPER_API_ENDPOINT | Scraper API Endpoint | `http://api.scraperapi.com` |
