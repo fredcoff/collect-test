@@ -79,7 +79,7 @@ functions:
       - sqs:
           arn: ${env:QUEUE_ARN}
           batchSize: 1
-          maximumRetryAttempts: 2
+          maximumRetryAttempts: 0
 
   analyze_content: 
     handler: src.analyze_content.handle

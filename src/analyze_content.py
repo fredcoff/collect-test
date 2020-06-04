@@ -22,9 +22,9 @@ class ResultModel(Model):
     id = UnicodeAttribute(hash_key=True)
     url = UnicodeAttribute(null=False)
     status = NumberAttribute(default=404)
-    content = UnicodeAttribute()
-    tags = UnicodeAttribute(default='')
-    lastUpdate = UnicodeAttribute()
+    content = UnicodeAttribute(null=True)
+    tags = UnicodeAttribute(null=True)
+    lastUpdate = UnicodeAttribute(null=True)
 
 
 def get_organized_urls_from_s3(bucket, key):
@@ -73,6 +73,7 @@ def process_content(content, keywords, url, key):
         result.tags = ','.join(tags)
         result.status = 200
     
+    print (result.tags)
     result.save()
 
 
