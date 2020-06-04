@@ -1,7 +1,7 @@
-## Collect
+# Collect
 
 
-### Make Requests
+## Make Requests
 
 Scheduled to run monthly.  
 Generates SQS tasks and pushes to the queue.  
@@ -9,7 +9,7 @@ Read from S3.
 
 
 
-### Get Content
+## Get Content
 
 Subscribed to the SQS topic.  
 Get a request from SQS.  
@@ -18,7 +18,7 @@ S3 Key: *year/month/no*
 
 
 
-### Analyze Content
+## Analyze Content
 
 
 Subscribed to S3.  
@@ -29,17 +29,17 @@ Add a result record to DynamoDB.
 
 ```json
 {
-    id: uuid(),
-    url: "https://example.xn--com-9o0a",
-    status: "404",
-    content: "s3 key",
-    tags/keywords: "CMBS, loans"
-    lastUpdate: "date"
+    "id": "uuid",
+    "url": "https://example.xn--com-9o0a",
+    "status": "404",
+    "content": "s3 key",
+    "tags": "CMBS, loans",
+    "lastUpdate": "date"
 }
 ```
 
 
-### Prerequisites
+## Prerequisites
 
 Created a SQS queue, a DynamoDB table, a S3 bucket and required files in S3.  
 Created a [scraperapi](https://www.scraperapi.com/) account.  
