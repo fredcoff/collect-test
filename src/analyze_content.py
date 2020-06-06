@@ -9,22 +9,8 @@ import datetime
 import json
 import csv
 import re
-from pynamodb.models import Model
-from pynamodb.attributes import UnicodeAttribute, UnicodeAttribute, NumberAttribute
 import uuid
-from .common import get_data_from_s3
-
-
-class ResultModel(Model):
-    class Meta:
-        table_name = os.environ['DYNAMODB_TABLE_NAME']
-        region = os.environ['AWS_REGION']
-    id = UnicodeAttribute(hash_key=True)
-    url = UnicodeAttribute(null=False)
-    status = NumberAttribute(default=404)
-    content = UnicodeAttribute(null=True)
-    tags = UnicodeAttribute(null=True)
-    lastUpdate = UnicodeAttribute(null=True)
+from .common import get_data_from_s3, ResultModel
 
 
 def get_organized_urls_from_s3(bucket, key):

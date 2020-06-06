@@ -108,6 +108,33 @@ functions:
           event: s3:ObjectCreated:*
           existing: true
 
+  export_dynamodb: 
+    handler: src.export_dynamodb.handle
+    timeout: 10
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - 'dynamodb:*'
+        Resource: ${env:DYNAMODB_TABLE_ARN}
+      - Effect: Allow
+        Action:
+          - 's3:*'
+        Resource:
+          - Fn::Join:
+              - ''
+              - - 'arn:aws:s3:::'
+                - ${env:S3_BUCKET}
+          - Fn::Join:
+              - ''
+              - - 'arn:aws:s3:::'
+                - ${env:S3_BUCKET}
+                - '/*'
+    events:
+      - http:
+          path: collect/export
+          method: post
+          cors: true
+
 
 # Create our resources with separate CloudFormation templates
 resources:
