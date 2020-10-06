@@ -109,7 +109,7 @@ functions:
           existing: true
 
   export_dynamodb: 
-    handler: src.export_dynamodb.handle
+    handler: src.export_dynamodb_csv.handle
     timeout: 10
     iamRoleStatements:
       - Effect: Allow
