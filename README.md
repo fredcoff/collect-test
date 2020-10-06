@@ -56,3 +56,4 @@ Created a [scraperapi](https://www.scraperapi.com/) account.
 |SQS_QUEUE_ARN | SQS Queue ARN | `arn:aws:sqs:us-east-2:953508463518:test-queue` |
 |SCRAPER_API_KEY | Scraper API Key | `294499dc0fb9dfe9a6ca5ed4db81fea2` |
 |SCRAPER_API_ENDPOINT | Scraper API Endpoint | `http://api.scraperapi.com` |
+|HEADERS | CSV Headers for Export | `content,id,url,lastUpdate,tags,status` |
