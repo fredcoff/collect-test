@@ -29,3 +29,5 @@ var/
 offline
 
 .requirements.zip
+
+__pycache__

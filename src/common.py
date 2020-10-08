@@ -1,8 +1,14 @@
 import boto3
 from botocore.exceptions import ClientError
 import os
-from pynamodb.attributes import UnicodeAttribute, UnicodeAttribute, NumberAttribute
+from pynamodb.attributes import UnicodeAttribute, UnicodeAttribute, NumberAttribute, MapAttribute, ListAttribute, BooleanAttribute
 from pynamodb.models import Model
+
+
+class EmailMap(MapAttribute):
+    email = UnicodeAttribute(null=False)
+    primary = BooleanAttribute(default=False)
+    email_type = UnicodeAttribute(null=True)
 
 
 class ResultModel(Model):
@@ -15,6 +21,7 @@ class ResultModel(Model):
     content = UnicodeAttribute(null=True)
     tags = UnicodeAttribute(null=True)
     lastUpdate = UnicodeAttribute(null=True)
+    emails = ListAttribute(of=EmailMap)
 
 
 def get_data_from_s3(bucket, key):
