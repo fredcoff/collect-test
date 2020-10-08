@@ -44,7 +44,9 @@ def get_keywords_from_s3(bucket, key):
 
 def process_content(content, keywords, url, key):
     result = ResultModel(id=str(uuid.uuid4()), url=url, content=key, 
-        lastUpdate=datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))
+        lastUpdate=datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"),
+        emails=[]
+    )
     
     if content == '404':
         result.status = 404
