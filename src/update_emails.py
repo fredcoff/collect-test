@@ -5,7 +5,7 @@ except ImportError:
 
 import sys
 import json
-from common import ResultModel, EmailMap
+from .common import ResultModel, EmailMap
 
 
 def handle(event, context):
@@ -26,11 +26,7 @@ def handle(event, context):
             if item["email"] in idxs.keys():
                 i = idxs[item["email"]]
                 
-                primary = item.get("primary", emails[i].primary)
-                if primary == "true" or primary == "True" or primary == "1":
-                    emails[i].primary = True
-                else:
-                    emails[i].primary = False
+                emails[i].primary = item.get("primary", emails[i].primary)
 
                 emails[i].email_type = item.get("type", emails[i].email_type)
             else:
@@ -72,9 +68,13 @@ if __name__ == "__main__":
                     "id": "1a4ad2ce-83d8-4afc-bfa2-2176854b318c",
                     "emails": [
                         {
+                            "email": "test1@example.com",
+                            "primary": True,
+                        },
+                        {
                             "email": "test2@example.com",
-                            "primary": False,
-                            "type": "business"
+                            "primary": True,
+                            "type": "personal"
                         },
                     ]
                 })

@@ -39,6 +39,28 @@ Add a result record to DynamoDB.
 ```
 
 
+## Export to CSV
+
+`collect/export`
+
+
+## Update Emails
+
+`update/emails`
+
+```json
+{
+    "id": "1a4ad2ce-83d8-4afc-bfa2-2176854b318c",
+    "emails": [
+        {
+            "email": "test2@example.com",
+            "primary": "true",
+            "type": "business"
+        },
+    ]
+}
+```
+
 ## Prerequisites
 
 Created a SQS queue, a DynamoDB table, a S3 bucket and required files in S3.  
