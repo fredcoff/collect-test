@@ -5,7 +5,8 @@ except ImportError:
 
 import sys
 import json
-from .common import ResultModel, EmailMap
+from common import ResultModel, EmailMap
+from constants import ACTION_DELETE
 
 
 def handle(event, context):
@@ -22,23 +23,30 @@ def handle(event, context):
         for item, i in zip(emails, range(len(emails))):
             idxs[item.email] = i
         
-        for item in req["emails"]:
-            if item["email"] in idxs.keys():
-                i = idxs[item["email"]]
-                
-                emails[i].primary = item.get("primary", emails[i].primary)
+        emails_to_delete = []
 
-                emails[i].email_type = item.get("type", emails[i].email_type)
+        for item in req["emails"]:
+            action = item.get("action", "")
+
+            if action == ACTION_DELETE:
+                emails_to_delete.append(item["email"])
             else:
-                emails.append(
-                    EmailMap(
-                        email=item["email"],
-                        primary=item.get("primary", False),
-                        email_type=item.get("type", "")
+                if item["email"] in idxs.keys():
+                    i = idxs[item["email"]]
+                    
+                    emails[i].primary = item.get("primary", emails[i].primary)
+
+                    emails[i].email_type = item.get("type", emails[i].email_type)
+                else:
+                    emails.append(
+                        EmailMap(
+                            email=item["email"],
+                            primary=item.get("primary", False),
+                            email_type=item.get("type", "")
+                        )
                     )
-                )
         
-        result.emails = emails
+        result.emails = filter(lambda x: x.email not in emails_to_delete, emails)
         result.save()
 
         return {
@@ -70,6 +78,7 @@ if __name__ == "__main__":
                         {
                             "email": "test1@example.com",
                             "primary": True,
+                            "action": "delete"
                         },
                         {
                             "email": "test2@example.com",
