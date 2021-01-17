@@ -125,6 +125,112 @@ Add a result record to DynamoDB.
 }
 ```
 
+```json
+// request
+{
+    "from": "1dc16f09-aaf2-45dc-9bfe-4c910e4d1373",
+    "size": 3,
+    "query": {
+        "conditions": [
+            {
+                "field": "sourceCreateTimestamp",
+                "op": "gt",
+                "value": "2020-09-10"
+            },
+            {
+                "field": "sourceCreateTimestamp",
+                "op": "lt",
+                "value": "2020-11-10",
+                "opmerge": "or"
+            }
+        ]
+    }
+}
+
+// response
+{
+    "count": 3,
+    "result": [
+        {
+            "id": "3129eddd-7702-49f4-8a2d-3c1eee960a9e",
+            "content": "2020/10/5",
+            "lastUpdate": "10/01/2020, 11:00:14",
+            "status": 200,
+            "url": "https://www.hklaw.com/en/professionals/c/covitt-renee-i",
+            "tags": "acquisition,CMBS,commercial,Commercial Real Estate,complex real estate transactions,finance,financing,hospitality,owners,real estate matters,real estate transactions,real estate transactions,representation of owners,transactions",
+            "emails": null,
+            "sourceCreateTimestamp": "2020-12-10",
+            "sourceModifyTimestamp": "2020-12-11",
+            "createTimestamp": null,
+            "modifyTimestamp": null
+        },
+        {
+            "id": "1a4ad2ce-83d8-4afc-bfa2-2176854b318c",
+            "content": "2020/10/3",
+            "lastUpdate": "10/01/2020, 11:00:14",
+            "status": 200,
+            "url": "https://www.hklaw.com/en/professionals/s/stansbury-john-l",
+            "tags": null,
+            "emails": [
+                {
+                    "email": "test2@example.com",
+                    "primary": true,
+                    "email_type": "personal"
+                }
+            ],
+            "sourceCreateTimestamp": "2020-09-10",
+            "sourceModifyTimestamp": "2020-09-11",
+            "createTimestamp": null,
+            "modifyTimestamp": null
+        },
+        {
+            "id": "234c7a5f-1d12-4bbd-82fb-da4e022b44ce",
+            "content": "2020/11/5",
+            "lastUpdate": "11/01/2020, 11:00:14",
+            "status": 200,
+            "url": "https://www.hklaw.com/en/professionals/c/covitt-renee-i",
+            "tags": "acquisition,CMBS,commercial,Commercial Real Estate,complex real estate transactions,finance,financing,hospitality,owners,real estate matters,real estate transactions,real estate transactions,representation of owners,transactions",
+            "emails": [],
+            "sourceCreateTimestamp": "2020-11-10",
+            "sourceModifyTimestamp": "2020-11-11",
+            "createTimestamp": null,
+            "modifyTimestamp": null
+        }
+    ],
+    "last_id": "234c7a5f-1d12-4bbd-82fb-da4e022b44ce"
+}
+```
+
+```json
+// request
+{
+    "from": "234c7a5f-1d12-4bbd-82fb-da4e022b44ce",
+    "size": 3,
+    "query": {
+        "conditions": [
+            {
+                "field": "sourceCreateTimestamp",
+                "op": "gt",
+                "value": "2020-09-10"
+            },
+            {
+                "field": "sourceCreateTimestamp",
+                "op": "lt",
+                "value": "2020-11-10",
+                "opmerge": "or"
+            }
+        ]
+    }
+}
+
+// response
+{
+    "count": 0,
+    "result": [],
+    "last_id": null
+}
+```
+
 ## Prerequisites
 
 Created a SQS queue, a DynamoDB table, a S3 bucket and required files in S3.  
