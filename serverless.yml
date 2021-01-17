@@ -1,154 +1,167 @@
 service: collect
 
 plugins:
-  - serverless-python-requirements
-  - serverless-dotenv-plugin
-  - serverless-iam-roles-per-function
+    - serverless-python-requirements
+    - serverless-dotenv-plugin
+    - serverless-iam-roles-per-function
 
 provider:
-  name: aws
-  runtime: python3.6
-  region: us-east-2
+    name: aws
+    runtime: python3.6
+    region: us-east-2
 
 # AWS Lambda Layers
 package:
-  exclude:
-    - node_modules/**
-    - venv/**
+    exclude:
+        - node_modules/**
+        - venv/**
 
 custom:
-  pythonRequirements:
-    dockerizePip: true
-    slim: true
-    zip: true
+    pythonRequirements:
+        dockerizePip: true
+        slim: true
+        zip: true
 
-  # Our stage is based on what is passed in when running serverless
-  # commands. Or fallsback to what we have set in the provider section.
-  stage: ${opt:stage, self:provider.stage}
-  stages:
-    - dev
-    - staging
-    - prod
+    # Our stage is based on what is passed in when running serverless
+    # commands. Or fallsback to what we have set in the provider section.
+    stage: ${opt:stage, self:provider.stage}
+    stages:
+        - dev
+        - staging
+        - prod
 
 functions:
-  make_requests: 
-    handler: src.make_requests.handle
-    timeout: 10
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - 's3:*'
-        Resource:
-          - Fn::Join:
-              - ''
-              - - 'arn:aws:s3:::'
-                - ${env:S3_BUCKET}
-          - Fn::Join:
-              - ''
-              - - 'arn:aws:s3:::'
-                - ${env:S3_BUCKET}
-                - '/*'
-      - Effect: Allow
-        Action:
-          - 'sqs:*'
-        Resource: ${env:SQS_QUEUE_ARN}
-    events:
-      - schedule:
-          rate: cron(0 11 1 * ? *)
-          description: "Cron Every morning at 6am EST (11am UTC) on the first day of the month"
+    make_requests:
+        handler: src.make_requests.handle
+        timeout: 10
+        iamRoleStatements:
+            - Effect: Allow
+              Action:
+                  - "s3:*"
+              Resource:
+                  - Fn::Join:
+                        - ""
+                        - - "arn:aws:s3:::"
+                          - ${env:S3_BUCKET}
+                  - Fn::Join:
+                        - ""
+                        - - "arn:aws:s3:::"
+                          - ${env:S3_BUCKET}
+                          - "/*"
+            - Effect: Allow
+              Action:
+                  - "sqs:*"
+              Resource: ${env:SQS_QUEUE_ARN}
+        events:
+            - schedule:
+                  rate: cron(0 11 1 * ? *)
+                  description: "Cron Every morning at 6am EST (11am UTC) on the first day of the month"
 
-  get_content: 
-    handler: src.get_content.handle
-    timeout: 10
-    reservedConcurrency: 10
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - 's3:*'
-        Resource:
-          - Fn::Join:
-              - ''
-              - - 'arn:aws:s3:::'
-                - ${env:S3_BUCKET}
-          - Fn::Join:
-              - ''
-              - - 'arn:aws:s3:::'
-                - ${env:S3_BUCKET}
-                - '/*'
-    events:
-      - sqs:
-          arn: ${env:SQS_QUEUE_ARN}
-          batchSize: 1
-          maximumRetryAttempts: 0
+    get_content:
+        handler: src.get_content.handle
+        timeout: 10
+        reservedConcurrency: 10
+        iamRoleStatements:
+            - Effect: Allow
+              Action:
+                  - "s3:*"
+              Resource:
+                  - Fn::Join:
+                        - ""
+                        - - "arn:aws:s3:::"
+                          - ${env:S3_BUCKET}
+                  - Fn::Join:
+                        - ""
+                        - - "arn:aws:s3:::"
+                          - ${env:S3_BUCKET}
+                          - "/*"
+        events:
+            - sqs:
+                  arn: ${env:SQS_QUEUE_ARN}
+                  batchSize: 1
+                  maximumRetryAttempts: 0
 
-  analyze_content: 
-    handler: src.analyze_content.handle
-    timeout: 10
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - 'dynamodb:*'
-        Resource: ${env:DYNAMODB_TABLE_ARN}
-      - Effect: Allow
-        Action:
-          - 's3:*'
-        Resource:
-          - Fn::Join:
-              - ''
-              - - 'arn:aws:s3:::'
-                - ${env:S3_BUCKET}
-          - Fn::Join:
-              - ''
-              - - 'arn:aws:s3:::'
-                - ${env:S3_BUCKET}
-                - '/*'
-    events:
-      - s3:
-          bucket: ${env:S3_BUCKET}
-          event: s3:ObjectCreated:*
-          existing: true
+    analyze_content:
+        handler: src.analyze_content.handle
+        timeout: 10
+        iamRoleStatements:
+            - Effect: Allow
+              Action:
+                  - "dynamodb:*"
+              Resource: ${env:DYNAMODB_TABLE_ARN}
+            - Effect: Allow
+              Action:
+                  - "s3:*"
+              Resource:
+                  - Fn::Join:
+                        - ""
+                        - - "arn:aws:s3:::"
+                          - ${env:S3_BUCKET}
+                  - Fn::Join:
+                        - ""
+                        - - "arn:aws:s3:::"
+                          - ${env:S3_BUCKET}
+                          - "/*"
+        events:
+            - s3:
+                  bucket: ${env:S3_BUCKET}
+                  event: s3:ObjectCreated:*
+                  existing: true
 
-  export_dynamodb: 
-    handler: src.export_dynamodb_csv.handle
-    timeout: 10
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - 'dynamodb:*'
-        Resource: ${env:DYNAMODB_TABLE_ARN}
-      - Effect: Allow
-        Action:
-          - 's3:*'
-        Resource:
-          - Fn::Join:
-              - ''
-              - - 'arn:aws:s3:::'
-                - ${env:S3_BUCKET}
-          - Fn::Join:
-              - ''
-              - - 'arn:aws:s3:::'
-                - ${env:S3_BUCKET}
-                - '/*'
-    events:
-      - http:
-          path: collect/export
-          method: post
-          cors: true
+    export_dynamodb:
+        handler: src.export_dynamodb_csv.handle
+        timeout: 10
+        iamRoleStatements:
+            - Effect: Allow
+              Action:
+                  - "dynamodb:*"
+              Resource: ${env:DYNAMODB_TABLE_ARN}
+            - Effect: Allow
+              Action:
+                  - "s3:*"
+              Resource:
+                  - Fn::Join:
+                        - ""
+                        - - "arn:aws:s3:::"
+                          - ${env:S3_BUCKET}
+                  - Fn::Join:
+                        - ""
+                        - - "arn:aws:s3:::"
+                          - ${env:S3_BUCKET}
+                          - "/*"
+        events:
+            - http:
+                  path: collect/export
+                  method: post
+                  cors: true
 
-  update_emails:
-    handler: src.update_emails.handle
-    timeout: 10
-    iamRoleStatements:
-      - Effect: Allow
-        Action:
-          - 'dynamodb:*'
-        Resource: ${env:DYNAMODB_TABLE_ARN}
-    events:
-      - http:
-          path: update/emails
-          method: post
-          cors: true
+    update_emails:
+        handler: src.update_emails.handle
+        timeout: 10
+        iamRoleStatements:
+            - Effect: Allow
+              Action:
+                  - "dynamodb:*"
+              Resource: ${env:DYNAMODB_TABLE_ARN}
+        events:
+            - http:
+                  path: update/emails
+                  method: post
+                  cors: true
+
+    search:
+        handler: src.search.handle
+        timeout: 10
+        iamRoleStatements:
+            - Effect: Allow
+              Action:
+                  - "dynamodb:*"
+              Resource: ${env:DYNAMODB_TABLE_ARN}
+        events:
+            - http:
+                  path: search
+                  method: post
+                  cors: true
 
 # Create our resources with separate CloudFormation templates
 resources:
-  

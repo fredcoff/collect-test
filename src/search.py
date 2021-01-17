@@ -5,8 +5,8 @@ except ImportError:
 
 import sys
 import json
-from common import ResultModel, EmailMap
-from constants import DEFAULT_SIZE
+from .common import ResultModel, EmailMap
+from .constants import DEFAULT_SIZE
 
 
 def get_field(field):
