@@ -104,6 +104,11 @@ def handle(event, context):
                 "modifyTimestamp": item.modifyTimestamp,
             })
 
+        if len(ret) > 0:
+            last_id = ret[-1]["id"]
+        else:
+            last_id = None
+
         return {
             "statusCode": 200,
             "headers": {
@@ -112,7 +117,8 @@ def handle(event, context):
             },
             "body": json.dumps({
                 "count": len(ret),
-                "result": ret
+                "result": ret,
+                "last_id": last_id
             })
         }
     except:

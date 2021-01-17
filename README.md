@@ -57,15 +57,71 @@ Add a result record to DynamoDB.
 `search`
 
 ```json
+// request
 {
-    "id": "1a4ad2ce-83d8-4afc-bfa2-2176854b318c",
-    "emails": [
+    "size": 3,
+    "query": {
+        "conditions": [
+            {
+                "field": "sourceCreateTimestamp",
+                "op": "gt",
+                "value": "2020-09-10"
+            },
+            {
+                "field": "sourceCreateTimestamp",
+                "op": "lt",
+                "value": "2020-11-10",
+                "opmerge": "or"
+            }
+        ]
+    }
+}
+
+// response
+{
+    "count": 3,
+    "result": [
         {
-            "email": "test2@example.com",
-            "primary": "true",
-            "type": "business"
+            "id": "3e112294-9bcf-49d9-9aa3-9ab5b3946edd",
+            "content": "2020/6/3",
+            "lastUpdate": "06/04/2020, 00:08:42",
+            "status": 404,
+            "url": "https://www.hklaw.com/en/professionals/s/stansbury-john-l",
+            "tags": null,
+            "emails": null,
+            "sourceCreateTimestamp": "2021-02-10",
+            "sourceModifyTimestamp": "2021-02-11",
+            "createTimestamp": null,
+            "modifyTimestamp": null
+        },
+        {
+            "id": "3332db67-ebf2-4581-b366-910bf82a47ba",
+            "content": "2020/11/1",
+            "lastUpdate": "11/01/2020, 11:00:41",
+            "status": 200,
+            "url": "https://www.hklaw.com/en/professionals/d/driscoll-allison-k",
+            "tags": "acquisition,acquisitions,CMBS,commercial,commercial real estate,complex commercial real estate finance transactions,finance,financing,financing transactions,hospitality,mezzanine loans,owners,securitizations,transactions,workouts",
+            "emails": [],
+            "sourceCreateTimestamp": "2021-01-10",
+            "sourceModifyTimestamp": "2021-01-11",
+            "createTimestamp": null,
+            "modifyTimestamp": null
+        },
+        {
+            "id": "1dc16f09-aaf2-45dc-9bfe-4c910e4d1373",
+            "content": "2021/1/2",
+            "lastUpdate": "01/01/2021, 11:00:41",
+            "status": 200,
+            "url": "https://www.hklaw.com/en/professionals/n/nolan-jeffrey-james",
+            "tags": null,
+            "emails": [],
+            "sourceCreateTimestamp": "2020-10-10",
+            "sourceModifyTimestamp": "2020-10-11",
+            "createTimestamp": null,
+            "modifyTimestamp": null
         }
-    ]
+    ],
+    "last_id": "1dc16f09-aaf2-45dc-9bfe-4c910e4d1373"
 }
 ```
 
