@@ -79,3 +79,27 @@ Created a [scraperapi](https://www.scraperapi.com/) account.
 |SCRAPER_API_KEY | Scraper API Key | `294499dc0fb9dfe9a6ca5ed4db81fea2` |
 |SCRAPER_API_ENDPOINT | Scraper API Endpoint | `http://api.scraperapi.com` |
 |HEADERS | CSV Headers for Export | `content,id,url,lastUpdate,tags,status` |
+
+
+## Development & Deployment
+
+### Environment
+- [serverless](https://www.serverless.com/framework/docs/getting-started#via-npm)
+- [NPM](https://nodejs.org/en/download/package-manager/)
+- [Python](https://www.python.org/)
+- [Docker](https://www.docker.com/)
+
+### Development
+- Create python virtual environment.
+- Set environment variables. A good practice is to insert commands in file `activate` in virtual environment. Exact filename can vary according to OS.
+- Run `pip install -r requirements.txt` to install dependencies.
+- Run `pip install boto3` to install `boto3`. It's not included in `requirements.txt` because it's built-in in AWS Python Lambda environment.
+- Run `npm install` to install *serverless* plugins.
+- Run scripts, e.g. `python src/update_emails.py`
+  
+  *If you encounter `ModuleNotFoundError: No module named '__main__.common'; '__main__' is not a package`, please use relative imports for modules. (`common` and `constants`)*
+
+### Deployment
+- `serverless deploy`
+
+    *If you encounter `TypeError: this.awsPackagePlugin.validateStatements is not a function`, run `npm i serverless-iam-roles-per-function@next`.*

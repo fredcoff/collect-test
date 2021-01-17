@@ -1,1 +1,2 @@
 ACTION_DELETE = "delete"
+DEFAULT_SIZE = 10

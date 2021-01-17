@@ -13,6 +13,6 @@
   },
   "devDependencies": {
     "serverless-dotenv-plugin": "2.3.2",
-    "serverless-iam-roles-per-function": "2.0.2"
+    "serverless-iam-roles-per-function": "^3.0.2-223021"
   }
 }

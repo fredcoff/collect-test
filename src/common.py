@@ -22,6 +22,10 @@ class ResultModel(Model):
     tags = UnicodeAttribute(null=True)
     lastUpdate = UnicodeAttribute(null=True)
     emails = ListAttribute(of=EmailMap)
+    sourceCreateTimestamp = UnicodeAttribute(null=True)
+    sourceModifyTimestamp = UnicodeAttribute(null=True)
+    createTimestamp = UnicodeAttribute(null=True)
+    modifyTimestamp = UnicodeAttribute(null=True)
 
 
 def get_data_from_s3(bucket, key):
@@ -31,5 +35,5 @@ def get_data_from_s3(bucket, key):
 
         return s3_object.get()['Body'].read().decode('utf-8')
     except ClientError as e:
-        print (e)
+        print(e)
         return None
