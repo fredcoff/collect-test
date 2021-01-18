@@ -56,6 +56,24 @@ Add a result record to DynamoDB.
 
 `search`
 
+| Parameter          | Description                             | e.g.                                   |
+| :----------------- | :-------------------------------------- | :------------------------------------- |
+| `size`             | number of results needed                | `5`                                    |
+| `from`             | search past this item (`id` of an item) | `3e112294-9bcf-49d9-9aa3-9ab5b3946edd` |
+| `query/conditions` | conditions                              |                                        |
+
+Condition details
+
+| Name      | Description                                                                                      |
+| :-------- | :----------------------------------------------------------------------------------------------- |
+| `field`   | field name (`sourceCreateTimestamp`/`sourceModifyTimestamp`/`createTimestamp`/`modifyTimestamp`) |
+| `op`      | operator (`gt`/`gte`/`lt`/`lte`)                                                                 |
+| `value`   | value (e.g. `field` op `value`)                                                                  |
+| `opmerge` | merge operator (`and`/`or`)                                                                      |
+
+_Notes about merging_
+_Merge operators are applied one by one from the first to last. `a or b and c` becomes `(a or b) and c`._
+
 ```json
 // request
 {
