@@ -62,6 +62,8 @@ Add a result record to DynamoDB.
 | `from`             | search past this item (`id` of an item) | `3e112294-9bcf-49d9-9aa3-9ab5b3946edd` |
 | `query/conditions` | conditions                              |                                        |
 
+_Don't set `from` on the initial request._
+
 Condition details
 
 | Name      | Description                                                                                      |
