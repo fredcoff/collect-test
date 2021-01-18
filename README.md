@@ -62,7 +62,7 @@ Add a result record to DynamoDB.
 | `from`             | search past this item (`id` of an item) | `3e112294-9bcf-49d9-9aa3-9ab5b3946edd` |
 | `query/conditions` | conditions                              |                                        |
 
-_Don't set `from` on the initial request._
+_Note: Don't set `from` on the initial request._
 
 Condition details
 
@@ -73,8 +73,7 @@ Condition details
 | `value`   | value (e.g. `field` op `value`)                                                                  |
 | `opmerge` | merge operator (`and`/`or`)                                                                      |
 
-_Notes about merging_
-_Merge operators are applied one by one from the first to last. `a or b and c` becomes `(a or b) and c`._
+_Note: In merging, merge operators are applied one by one from the first to last, e.g. `a or b and c` becomes `(a or b) and c`._
 
 ```json
 // request
