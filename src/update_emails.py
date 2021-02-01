@@ -5,8 +5,8 @@ except ImportError:
 
 import sys
 import json
-from .common import ResultModel, EmailMap
-from .constants import ACTION_DELETE
+from src.common import ResultModel, EmailMap
+from src.constants import ACTION_DELETE
 
 
 def handle(event, context):
