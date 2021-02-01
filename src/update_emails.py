@@ -5,7 +5,7 @@ except ImportError:
 
 import sys
 import json
-from common import ResultModel, EmailMap
+from .common import ResultModel, EmailMap
 from constants import ACTION_DELETE
 
 
@@ -18,11 +18,11 @@ def handle(event, context):
         emails = result.emails
         if emails is None:
             emails = []
-        
+
         idxs = {}
         for item, i in zip(emails, range(len(emails))):
             idxs[item.email] = i
-        
+
         emails_to_delete = []
 
         for item in req["emails"]:
@@ -33,10 +33,11 @@ def handle(event, context):
             else:
                 if item["email"] in idxs.keys():
                     i = idxs[item["email"]]
-                    
+
                     emails[i].primary = item.get("primary", emails[i].primary)
 
-                    emails[i].email_type = item.get("type", emails[i].email_type)
+                    emails[i].email_type = item.get(
+                        "type", emails[i].email_type)
                 else:
                     emails.append(
                         EmailMap(
@@ -45,8 +46,9 @@ def handle(event, context):
                             email_type=item.get("type", "")
                         )
                     )
-        
-        result.emails = filter(lambda x: x.email not in emails_to_delete, emails)
+
+        result.emails = filter(
+            lambda x: x.email not in emails_to_delete, emails)
         result.save()
 
         return {
@@ -68,8 +70,9 @@ def handle(event, context):
             "body": str(exc_val)
         }
 
+
 if __name__ == "__main__":
-    print (
+    print(
         handle(
             {
                 "body": json.dumps({
@@ -87,7 +90,7 @@ if __name__ == "__main__":
                         },
                     ]
                 })
-            }, 
+            },
             None,
         )
     )
