@@ -1,7 +1,7 @@
 import boto3
 from botocore.exceptions import ClientError
 import os
-from pynamodb.attributes import UnicodeAttribute, UnicodeAttribute, NumberAttribute, MapAttribute, ListAttribute, BooleanAttribute
+from pynamodb.attributes import UnicodeAttribute, NumberAttribute, MapAttribute, ListAttribute, BooleanAttribute
 from pynamodb.models import Model
 
 
